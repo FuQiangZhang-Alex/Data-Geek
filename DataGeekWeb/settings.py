@@ -25,7 +25,7 @@ SECRET_KEY = '56clz=k3r+3(_kj^z@#@9_3+q6$9ozc=enupizd8x)=yq2wq!j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['datageek.top', 'www.datageek.top']
 
 
 # Application definition
