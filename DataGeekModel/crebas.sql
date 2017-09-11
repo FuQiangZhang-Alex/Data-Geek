@@ -1,91 +1,53 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 9.x                               */
-/* Created on:     9/9/2017 10:49:09 PM                         */
+/* Created on:     9/11/2017 8:55:18 AM                         */
 /*==============================================================*/
 
 
-drop index Index_1;
-
-drop table ARTICALS;
-
-drop index IND_CATENAME;
-
-drop index IND_PARENTID;
-
-drop table ARTICAL_CATEGORIES;
-
-drop index IND_ARTICAL_IMG_ID;
-
-drop table ARTICAL_IMAGES;
-
-drop index IND_ARTICAL_TAG_ID;
-
-drop table ARTICAL_R_TAGS;
-
-drop index IND_TAGNAME;
-
-drop table ARTICAL_TAGS;
-
-drop index IND_COMMENT;
-
-drop index IND_USER_ARTICAL_ID;
-
-drop table COMMENTS;
-
-drop index IND_COMMENTID;
-
-drop table COMMENT_REPLIES;
-
-drop index IND_PK;
-
-drop table IMAGES;
-
-drop index IND_LOGTIME;
-
-drop index IND_USERID;
-
-drop table LOGING_LOGS;
-
-drop index IND_MOBILE;
-
-drop index IND_USERNAME;
-
-drop index IND_EMAIL;
-
-drop table USERS;
-
-drop index IND_USR_ARTICAL_ID;
-
-drop table USERS_ARTICALS;
-
-drop index IND_USER_IMG_ID;
-
-drop table USER_IMAGES;
-
-drop index rolename;
-
-drop index pk;
-
-drop table USER_ROLES;
-
-drop index IND_USR_ROLE;
-
-drop table USER_R_ROLES;
-
-drop index USR_TAG_ID;
-
-drop table USER_R_TAGS;
-
-drop index IND_TAG_NAME;
-
-drop table USER_TAGS;
+drop index if exists IND_ARTICALID CASCADE;
+drop table if exists ARTICALS CASCADE;
+drop index if exists IND_CATENAME CASCADE;
+drop index if exists IND_PARENTID CASCADE;
+drop table if exists ARTICAL_CATEGORIES CASCADE;
+drop index if exists IND_ARTICAL_IMG_ID CASCADE;
+drop table if exists ARTICAL_IMAGES CASCADE;
+drop index if exists IND_ARTICAL_TAG_ID CASCADE;
+drop table if exists ARTICAL_R_TAGS CASCADE;
+drop index if exists IND_TAGNAME CASCADE;
+drop table if exists ARTICAL_TAGS CASCADE;
+drop index if exists IND_COMMENT CASCADE;
+drop index if exists IND_USER_ARTICAL_ID CASCADE;
+drop table if exists COMMENTS CASCADE;
+drop index if exists IND_COMMENTID CASCADE;
+drop table if exists COMMENT_REPLIES CASCADE;
+drop index if exists IMG_PK CASCADE;
+drop table if exists IMAGES CASCADE;
+drop index if exists IND_LOGTIME CASCADE;
+drop index if exists IND_USERID CASCADE;
+drop table if exists LOGING_LOGS CASCADE;
+drop index if exists IND_MOBILE CASCADE;
+drop index if exists IND_USERNAME CASCADE;
+drop index if exists IND_EMAIL CASCADE;
+drop table if exists USERS CASCADE;
+drop index if exists IND_USR_ARTICAL_ID CASCADE;
+drop table if exists USERS_ARTICALS CASCADE;
+drop index if exists IND_USER_IMG_ID CASCADE;
+drop table if exists USER_IMAGES CASCADE;
+drop index if exists rolename CASCADE;
+drop table if exists USER_ROLES CASCADE;
+drop index if exists IND_USR_ROLE CASCADE;
+drop table if exists USER_R_ROLES CASCADE;
+drop index if exists IND_USR_TAG_ID CASCADE;
+drop table if exists USER_R_TAGS CASCADE;
+drop index if exists IND_TAG_NAME CASCADE;
+drop table if exists USER_TAGS CASCADE;
 
 /*==============================================================*/
 /* Table: ARTICALS                                              */
 /*==============================================================*/
 create table ARTICALS (
    articalid            UUID                 not null,
-   content              VBIN10000            null,
+   content              BYTEA                null,
    cateid               UUID                 null,
    readcount            INT4                 not null default 0
       constraint CKC_READCOUNT_ARTICALS check (readcount >= 0),
@@ -98,9 +60,9 @@ create table ARTICALS (
 );
 
 /*==============================================================*/
-/* Index: Index_1                                               */
+/* Index: IND_ARTICALID                                         */
 /*==============================================================*/
-create unique index Index_1 on ARTICALS (
+create unique index IND_ARTICALID on ARTICALS (
 articalid
 );
 
@@ -200,8 +162,8 @@ create table COMMENTS (
    comment              VARCHAR(1024)        not null,
    articalid            UUID                 null,
    userid               UUID                 null,
-   stars                SF(4)                null default 0
-      constraint CKC_STARS_COMMENTS check (stars is null or (stars between 0 and 5)),
+   stars                REAL                 null default '0'
+      constraint CKC_STARS_COMMENTS check (stars is null or (stars between '0' and '5')),
    latitude             DECIMAL(15,6)        null,
    longtitude           DECIMAL(15,6)        null,
    ip                   CIDR                 null,
@@ -263,9 +225,9 @@ comment on table IMAGES is
 'image information';
 
 /*==============================================================*/
-/* Index: IND_PK                                                */
+/* Index: IMG_PK                                                */
 /*==============================================================*/
-create unique index IND_PK on IMAGES (
+create  index IMG_PK on IMAGES (
 imgeid
 );
 
@@ -395,13 +357,6 @@ create table USER_ROLES (
 );
 
 /*==============================================================*/
-/* Index: pk                                                    */
-/*==============================================================*/
-create unique index pk on USER_ROLES (
-roleid
-);
-
-/*==============================================================*/
 /* Index: rolename                                              */
 /*==============================================================*/
 create  index rolename on USER_ROLES (
@@ -444,9 +399,9 @@ create table USER_R_TAGS (
 );
 
 /*==============================================================*/
-/* Index: USR_TAG_ID                                            */
+/* Index: IND_USR_TAG_ID                                        */
 /*==============================================================*/
-create unique index USR_TAG_ID on USER_R_TAGS (
+create unique index IND_USR_TAG_ID on USER_R_TAGS (
 userid,
 tagid
 );
